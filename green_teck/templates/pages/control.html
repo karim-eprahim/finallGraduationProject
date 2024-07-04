@@ -1,0 +1,897 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+{% include 'parts/sidebar.html' %}  
+
+<!-- main-content  -->
+<div class="control main-content container-fluid px-4">
+    <div class="wellcome d-flex py-4 justify-content-between">
+        <div class="d-flex justify-content-center align-items-center gap-2">
+            <div class="profilexx" ref="profile">
+              <span>{{ user.username|first|upper }}</span>
+            </div>  
+
+            <h1 class="fs-4 m-0">
+                <span class="">{{request.user.username|capfirst}}</span>
+            </h1>
+        </div>
+        <!-- <div class="notification d-flex justify-content-center gap-1">
+            <i class="fa-solid fa-bell btn btn-light border"></i>
+            <i class="sidebtn d-sm-none d-flex flex-column justify-content-center align-items-center btn gap-1 btn-light border">
+                <span></span>
+                <span></span>
+                <span></span>
+            </i>
+            <div class="alerts">
+                <div class="alert alert-primary d-flex gap-1 align-items-center m-1" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>An example alert with an icon</div>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="d-flex justify-content-center gap-2 h-100">
+          <div class="notificationss">
+            <i class="notificationbtn fa-solid fa-bell btn btn-light border"><span class="badge position-absolute dangerbtn rounded-pill"></span></i>
+            <!-- alert  -->
+              <div class="notification  pt-3 bg-white border rounded-4 d-none">
+                <div class="notititle text-center">
+                  <h4><i class="fa-solid fa-bell me-2"></i>Notifications</h4>
+                </div>
+                <div class="notibody">
+                  <div class="list-group border-0">
+                    <div class="alert alert-light" role="alert">
+                      There Is No Notifications
+                    </div>
+                  </div>
+                  <button class="btn btn-warning w-100 mt-2 deleteAllNotifications">Delete All Notifications</button>
+                </div>
+              </div>
+          </div>
+          <i
+            class="sidebtn d-sm-none d-flex flex-column justify-content-center align-items-center btn gap-1 btn-light border"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </i>
+        </div>
+        
+    </div>
+    {% if plant %}
+    <form method="POST">
+        {% csrf_token %}
+    <!-- control  -->
+    <div class="control py-4">
+        <h3>Controls</h3>
+        <div class="row py-3">
+          <!-- thermostat -->
+          <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+            <div class="card border-0 shadow h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fa-solid fa-temperature-three-quarters icon"></i>
+                  Thermostat
+                </h5>
+                <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                  <div class="controls-btn btn-group gap-2" id="thermo-btns">
+                    <div class="control-btn btn shadow rounded" id="thermo-manual">
+                      Manual
+                    </div>
+                    <div class="control-btn btn shadow rounded" id="thermo-auto">
+                      Auto
+                    </div>
+                  </div>
+                </div>
+                <!-- control-sitting  -->
+                <div class="controls-sit thermo-sits">
+                  <!-- manual  -->
+                  <div class="form-check px-4 form-switch d-flex flex-column align-items-center control-content gap-2"
+                    id="thermo-btn">
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="tempHeater" />
+                      <label class="form-check-label" for="tempHeater">Heater</label>
+                    </div>
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="fan" />
+                      <label class="form-check-label" for="fan">Fan</label>
+                    </div>
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="hood" />
+                      <label class="form-check-label" for="hood">Hood</label>
+                    </div>
+                  </div>
+                  <!-- auto  -->
+                  <div class="mb-3 w-75 mx-auto control-content" id="auto-btn">
+                    
+                    <input type="number" class="form-control" id="autoTemperatureValue" value="{{ plant.Temperature }}"disabled/>
+                  </div>
+                </div>
+                <div class="degree my-3 d-flex justify-content-around align-items-center">
+                  <p class="fs-5">Sensor Reading:</p>
+                  <p class="fs-2 temperature">0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- light -->
+          <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+            <div class="card border-0 shadow h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fa-solid fa-lightbulb icon text-warning"></i>
+                  Light Intensity
+                </h5>
+                <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                  <div class="controls-btn btn-group gap-2" id="light-btns">
+                    <div class="control-btn btn shadow rounded" id="light-manual">
+                      Manual
+                    </div>
+                    <div class="control-btn btn shadow rounded" id="light-auto">
+                      Auto
+                    </div>
+                  </div>
+                </div>
+                <!-- control-sitting  -->
+                <div class="controls-sit light-content">
+                  <!-- manual  -->
+                  <div
+                    class="form-check px-4 form-switch d-flex flex-column align-items-center gap-3 control-content light-content gap-2"
+                    id="light-btn">
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="lightSwitch" />
+                      <label class="form-check-label" for="lightSwitch">Curtain 1</label>
+                    </div>
+                  </div>
+  
+                  <div class="mb-3 w-75 mx-auto control-content light-content" id="auto-light-btn">
+                    
+                    <input type="number" class="form-control" id="lightautovalue" value="{{ plant.Light_intensity }}" disabled/>
+                  </div>
+                </div>
+                <!-- auto  -->
+                <div class="degree my-3 d-flex justify-content-around align-items-center">
+                  <p class="fs-5">Sensor Reading:</p>
+                  <p class="fs-2 light">0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- irrigation -->
+          <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+            <div class="card border-0 shadow h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fa-solid fa-faucet-drip icon text-primary"></i>
+                  Irrigation System
+                </h5>
+                <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                  <div class="controls-btn btn-group gap-2" id="irrigation-btns">
+                    <div class="control-btn btn shadow rounded" id="irrigation-manual">
+                      Manual
+                    </div>
+                    <div class="control-btn btn shadow rounded" id="irrigation-auto">
+                      Auto
+                    </div>
+                  </div>
+                </div>
+                <!-- control-sitting  -->
+                <div class="controls-sit irrigation-content">
+                  <div
+                    class="form-check px-4 form-switch d-flex flex-column align-items-center control-content irrigation-content gap-2"
+                    id="irrigation-btn">
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="leftMoisture" />
+                      <label class="form-check-label" for="leftMoisture">left</label>
+                    </div>
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="rightMoisture" />
+                      <label class="form-check-label" for="rightMoisture">right</label>
+                    </div>
+                  </div>
+  
+                  <div class="mb-3 w-75 mx-auto control-content irrigation-content" id="auto-irrigation-btn">
+                    
+                     <input type="number" class="form-control" id="soilMoistureAutoValue" value="{{ plant.Soil_moister }}" disabled/>
+                  </div>
+                </div>
+                <div class="degree my-3 d-flex justify-content-around align-items-center">
+                  <p class="fs-5">Sensor Reading:</p>
+                  <p class="fs-2 irrigation">0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- humidity -->
+          <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+            <div class="card border-0 shadow h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fa-solid fa-wind icon text-info"></i>
+                  Humidity
+                </h5>
+                <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                  <div class="controls-btn btn-group gap-2" id="thermo-btns">
+                    <div class="control-btn btn shadow rounded" id="humidity-manual">
+                      Manual
+                    </div>
+                    <div class="control-btn btn shadow rounded" id="humidity-auto">
+                      Auto
+                    </div>
+                  </div>
+                </div>
+                <!-- control-sitting  -->
+                <div class="controls-sit thermo-sits">
+                  <!-- manual  -->
+                  <div class="form-check px-4 form-switch d-flex flex-column align-items-center control-content gap-2"
+                    id="humidity-manual-buttons">
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="humidifier" />
+                      <label class="form-check-label" for="humidifier">Humidifier</label>
+                    </div>
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="fan" />
+                      <label class="form-check-label" for="fan">Fan</label>
+                    </div>
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="hood" />
+                      <label class="form-check-label" for="hood">Hood</label>
+                    </div>
+                  </div>
+                  <!-- auto  -->
+                  <div class="mb-3 w-75 mx-auto control-content" id="auto-humidity-value">
+                    
+                    <input type="number" class="form-control" id="humidityAutoValue" value="{{ plant.Humidity }}" disabled/>
+                  </div>
+                </div>
+                <div class="degree my-3 d-flex justify-content-around align-items-center">
+                  <p class="fs-5">Sensor Reading:</p>
+                  <p class="fs-2 humidity">0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- air Quality -->
+          <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+            <div class="card border-0 shadow h-100">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fa-solid fa-wind icon text-primary"></i>
+                  Air Quality
+                </h5>
+                <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                  <div class="controls-btn btn-group gap-2" id="airQuality-btns">
+                    <div class="control-btn btn shadow rounded" id="airQuality-manual">
+                      Manual
+                    </div>
+                    <div class="control-btn btn shadow rounded" id="airQuality-auto">
+                      Auto
+                    </div>
+                  </div>
+                </div>
+                <!-- control-sitting  -->
+                <div class="controls-sit thermo-sits">
+                  <!-- manual  -->
+                  <div class="form-check px-4 form-switch d-flex flex-column align-items-center control-content gap-2"
+                    id="airQuality-manual-buttons">
+                    <div class="d-flex justify-content-between w-100 d-none">
+                      <input class="form-check-input" type="checkbox" id="humidifier" />
+                      <label class="form-check-label" for="humidifier">Humidifier</label>
+                    </div>
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="fan" />
+                      <label class="form-check-label" for="fan">Fan</label>
+                    </div>
+                    <div class="d-flex justify-content-between w-100">
+                      <input class="form-check-input" type="checkbox" id="hood" />
+                      <label class="form-check-label" for="hood">Hood</label>
+                    </div>
+                  </div>
+                  <!-- auto  -->
+                  <div class="mb-3 w-75 mx-auto control-content" id="auto-airQuality-value">
+                   
+                    <input type="number" class="form-control" id="humidityAutoValue" value="{{ plant.air_Quality }}" disabled/>
+                    
+                  </div>
+                </div>
+                <div class="degree my-3 d-flex justify-content-around align-items-center">
+                  <p class="fs-5">Sensor Reading:</p>
+                  <p class="fs-2 airQuality">0</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- table  -->
+      <div class="table">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-12">
+              <div class="card shadow-none border-0">
+                <div class="card-header px-0 flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between">
+                  <h3>Employee Attendance</h3>
+                  <!-- add factor  -->
+                   <!-- Button trigger modal -->
+                   {% if user.is_authenticated %}
+                   {% if user.is_staff %}
+                    <div>
+                      <button type="button" class="btn dangerbtn mx-3" data-bs-toggle="modal" data-bs-target="#removeFactor">
+                        Remove Factor
+                      </button>
+                      <button type="button" class="btn mainbtn" data-bs-toggle="modal" data-bs-target="#addFactor">
+                        Add Factor
+                      </button>
+                    </div>
+                   
+                    {% endif%}
+                    {%endif%}
+  
+                    <!-- Modal add factor  -->
+                    <div class="modal fade" id="addFactor" tabindex="-1" aria-labelledby="addFactor" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="addFactor">Add Factor</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                              <div class="form-group mb-2">
+                                  <label for="addFactors">Factor ID</label>
+                                  <input type="text" class="form-control" id="addFactors" placeholder="Enter Factor ID">
+                                </div>
+                                <div id="addnoti" class="form-text text-success px-2 invisible">Factor Added Successfuly</div>
+                          </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" id="closeAddFactorId" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="addFactorId" class="btn mainbtn">ِAdd Factor</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Modal remove factor  -->
+                    <div class="modal fade" id="removeFactor" tabindex="-1" aria-labelledby="removeFactor" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="removeFactor">Remove Factor</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                              <div class="form-group mb-2">
+                                  <label for="removeFactors">Factor ID</label>
+                                  <input type="text" class="form-control" id="removeFactors" placeholder="Enter Factor ID">
+                              </div>
+                              <div id="removenoti" class="form-text text-success px-2 invisible">Factor Removed Successfuly</div>
+                          </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" id="closeRemoveFactorId" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" id="removeFactorId" class="btn dangerbtn">Remove Factor</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end of models  -->
+                </div>
+                <div class="card-body border rounded">
+                  <div class="table-responsive" id="proTeamScroll" tabindex="2" style="height: 400px; outline: none">
+                    <table class="table table-hover">
+                      <thead class="mb-1">
+                        <tr>
+                          <th>Card ID</th>
+                          <!-- <th></th> -->
+                          <th>Name</th>
+                          <th>Time In</th>
+                          <th>Time Out</th>
+                          <th>Date</th>
+                          <th>Door Status</th>
+                        </tr>
+                      </thead>
+                      <tbody id="attendance-table">
+  
+  
+  
+                        <!-- <tr>
+                          <td>20-02-2018</td>
+                          <td class="d-flex gap-2">
+                            <div class="user-photo">A</div>
+                            <div>
+                              <h6 class="mb-0 font-13">Wordpress Website</h6>
+                              <p class="m-0 font-12">
+                                Assigned to<span class="col-green font-weight-bold">
+                                  Airi Satou</span>
+                              </p>
+                            </div>
+                          </td>
+                          <td>20-02-2018</td>
+                          <td>20-02-2018</td>
+                          <td>20-02-2018</td>
+                          <td>
+                            <div class="badget badge-outline col-red">High</div>
+                          </td>
+  
+                        </tr> -->
+                        
+                        <!-- <tr>
+                          <td class="table-img">
+                            <img src="http://frontendfreecode.com/codes/files/avatar1.png" alt="" />
+                          </td>
+                          <td>
+                            <h6 class="mb-0 font-13">Android Game App</h6>
+                            <p class="m-0 font-12">
+                              Assigned to<span class="col-green font-weight-bold">
+                                Sarah Smith</span>
+                            </p>
+                          </td>
+                          <td>22-05-2019</td>
+                          <td class="text-truncate">
+                            <ul class="list-unstyled order-list m-b-0">
+                              <li class="team-member team-member-sm">
+                                <img class="rounded-circle" src="http://frontendfreecode.com/codes/files/avatar1.png"
+                                  alt="user" data-toggle="tooltip" title="" data-original-title="Wildan Ahdian" />
+                              </li>
+                              <li class="team-member team-member-sm">
+                                <img class="rounded-circle" src="http://frontendfreecode.com/codes/files/avatar3.png"
+                                  alt="user" data-toggle="tooltip" title="" data-original-title="John Deo" />
+                              </li>
+                              <li class="team-member team-member-sm">
+                                <img class="rounded-circle" src="http://frontendfreecode.com/codes/files/avatar4.png"
+                                  alt="user" data-toggle="tooltip" title="" data-original-title="Sarah Smith" />
+                              </li>
+                              <li class="avatar avatar-sm">
+                                <span class="badge badge-primary">+4</span>
+                              </li>
+                            </ul>
+                          </td>
+                          <td>
+                            <div class="badge-outline col-green">Low</div>
+                          </td>
+                          <td class="align-middle">
+                            <div class="progress-text">55%</div>
+                            <div class="progress" data-height="6" style="height: 6px">
+                              <div class="progress-bar bg-purple" data-width="55%" style="width: 55%"></div>
+                            </div>
+                          </td>
+                          <td>
+                            <a data-toggle="tooltip" title="" data-original-title="Edit"><i
+                                class="fas fa-pencil-alt"></i></a>
+                            <a data-toggle="tooltip" title="" data-original-title="Delete"><i
+                                class="far fa-trash-alt"></i></a>
+                          </td>
+                        </tr> -->
+                       
+  
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+    </form>
+    {% else %}
+    <!-- control  -->
+    <div class="control py-4">
+      <h3>Controls</h3>
+      <div class="row py-3">
+        <!-- thermostat -->
+        <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+          <div class="card border-0 shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-temperature-three-quarters icon"></i>
+                Thermostat
+              </h5>
+              <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                <div class="controls-btn btn-group gap-2" id="thermo-btns">
+                  <div class="control-btn btn shadow rounded" id="thermo-manual">
+                    Manual
+                  </div>
+                  <div class="control-btn btn shadow rounded" id="thermo-auto">
+                    Auto
+                  </div>
+                </div>
+              </div>
+              <!-- control-sitting  -->
+              <div class="controls-sit thermo-sits">
+                <!-- manual  -->
+                <div class="form-check px-4 form-switch d-flex flex-column align-items-center control-content gap-2"
+                  id="thermo-btn">
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="tempHeater" />
+                    <label class="form-check-label" for="tempHeater">Heater</label>
+                  </div>
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="fan" />
+                    <label class="form-check-label" for="fan">Fan</label>
+                  </div>
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="hood" />
+                    <label class="form-check-label" for="hood">Hood</label>
+                  </div>
+                </div>
+                <!-- auto  -->
+                <div class="mb-3 w-75 mx-auto control-content" id="auto-btn">
+                  
+                  <input type="number" class="form-control" id="autoTemperatureValue" value="{{ plant.Temperature }}"disabled/>
+                </div>
+              </div>
+              <div class="degree my-3 d-flex justify-content-around align-items-center">
+                <p class="fs-5">Sensor Reading:</p>
+                <p class="fs-2 temperature">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- light -->
+        <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+          <div class="card border-0 shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-lightbulb icon text-warning"></i>
+                Light Intensity
+              </h5>
+              <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                <div class="controls-btn btn-group gap-2" id="light-btns">
+                  <div class="control-btn btn shadow rounded" id="light-manual">
+                    Manual
+                  </div>
+                  <div class="control-btn btn shadow rounded" id="light-auto">
+                    Auto
+                  </div>
+                </div>
+              </div>
+              <!-- control-sitting  -->
+              <div class="controls-sit light-content">
+                <!-- manual  -->
+                <div
+                  class="form-check px-4 form-switch d-flex flex-column align-items-center gap-3 control-content light-content gap-2"
+                  id="light-btn">
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="lightSwitch" />
+                    <label class="form-check-label" for="lightSwitch">Curtain 1</label>
+                  </div>
+                </div>
+
+                <div class="mb-3 w-75 mx-auto control-content light-content" id="auto-light-btn">
+                  
+                  <input type="number" class="form-control" id="lightautovalue" value="{{ plant.Light_intensity }}" disabled/>
+                </div>
+              </div>
+              <!-- auto  -->
+              <div class="degree my-3 d-flex justify-content-around align-items-center">
+                <p class="fs-5">Sensor Reading:</p>
+                <p class="fs-2 light">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- irrigation -->
+        <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+          <div class="card border-0 shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-faucet-drip icon text-primary"></i>
+                Irrigation System
+              </h5>
+              <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                <div class="controls-btn btn-group gap-2" id="irrigation-btns">
+                  <div class="control-btn btn shadow rounded" id="irrigation-manual">
+                    Manual
+                  </div>
+                  <div class="control-btn btn shadow rounded" id="irrigation-auto">
+                    Auto
+                  </div>
+                </div>
+              </div>
+              <!-- control-sitting  -->
+              <div class="controls-sit irrigation-content">
+                <div
+                  class="form-check px-4 form-switch d-flex flex-column align-items-center control-content irrigation-content gap-2"
+                  id="irrigation-btn">
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="leftMoisture" />
+                    <label class="form-check-label" for="leftMoisture">left</label>
+                  </div>
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="rightMoisture" />
+                    <label class="form-check-label" for="rightMoisture">right</label>
+                  </div>
+                </div>
+
+                <div class="mb-3 w-75 mx-auto control-content irrigation-content" id="auto-irrigation-btn">
+                  
+                   <input type="number" class="form-control" id="soilMoistureAutoValue" value="{{ plant.Soil_moister }}" disabled/>
+                </div>
+              </div>
+              <div class="degree my-3 d-flex justify-content-around align-items-center">
+                <p class="fs-5">Sensor Reading:</p>
+                <p class="fs-2 irrigation">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- humidity -->
+        <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+          <div class="card border-0 shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-wind icon text-info"></i>
+                Humidity
+              </h5>
+              <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                <div class="controls-btn btn-group gap-2" id="thermo-btns">
+                  <div class="control-btn btn shadow rounded" id="humidity-manual">
+                    Manual
+                  </div>
+                  <div class="control-btn btn shadow rounded" id="humidity-auto">
+                    Auto
+                  </div>
+                </div>
+              </div>
+              <!-- control-sitting  -->
+              <div class="controls-sit thermo-sits">
+                <!-- manual  -->
+                <div class="form-check px-4 form-switch d-flex flex-column align-items-center control-content gap-2"
+                  id="humidity-manual-buttons">
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="humidifier" />
+                    <label class="form-check-label" for="humidifier">Humidifier</label>
+                  </div>
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="fan" />
+                    <label class="form-check-label" for="fan">Fan</label>
+                  </div>
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="hood" />
+                    <label class="form-check-label" for="hood">Hood</label>
+                  </div>
+                </div>
+                <!-- auto  -->
+                <div class="mb-3 w-75 mx-auto control-content" id="auto-humidity-value">
+                  
+                  <input type="number" class="form-control" id="humidityAutoValue" value="{{ plant.Humidity }}" disabled/>
+                </div>
+              </div>
+              <div class="degree my-3 d-flex justify-content-around align-items-center">
+                <p class="fs-5">Sensor Reading:</p>
+                <p class="fs-2 humidity">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- air Quality -->
+        <div class="col-sm-6 col-lg-4 mb-3 mb-sm-3">
+          <div class="card border-0 shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="fa-solid fa-wind icon text-primary"></i>
+                Air Quality
+              </h5>
+              <div class="card-text my-3 d-flex justify-content-center align-items-center">
+                <div class="controls-btn btn-group gap-2" id="airQuality-btns">
+                  <div class="control-btn btn shadow rounded" id="airQuality-manual">
+                    Manual
+                  </div>
+                  <div class="control-btn btn shadow rounded" id="airQuality-auto">
+                    Auto
+                  </div>
+                </div>
+              </div>
+              <!-- control-sitting  -->
+              <div class="controls-sit thermo-sits">
+                <!-- manual  -->
+                <div class="form-check px-4 form-switch d-flex flex-column align-items-center control-content gap-2"
+                  id="airQuality-manual-buttons">
+                  <div class="d-flex justify-content-between w-100 d-none">
+                    <input class="form-check-input" type="checkbox" id="humidifier" />
+                    <label class="form-check-label" for="humidifier">Humidifier</label>
+                  </div>
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="fan" />
+                    <label class="form-check-label" for="fan">Fan</label>
+                  </div>
+                  <div class="d-flex justify-content-between w-100">
+                    <input class="form-check-input" type="checkbox" id="hood" />
+                    <label class="form-check-label" for="hood">Hood</label>
+                  </div>
+                </div>
+                <!-- auto  -->
+                <div class="mb-3 w-75 mx-auto control-content" id="auto-airQuality-value">
+                
+                  <input type="number" class="form-control" id="humidityAutoValue" value="{{ plant.air_Quality }}" disabled/>
+                  
+                </div>
+              </div>
+              <div class="degree my-3 d-flex justify-content-around align-items-center">
+                <p class="fs-5">Sensor Reading:</p>
+                <p class="fs-2 airQuality">0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- table  -->
+    <div class="table">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12">
+            <div class="card shadow-none border-0">
+              <div class="card-header px-0 flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between">
+                <h3>Employee Attendance</h3>
+                <!-- add factor  -->
+                 <!-- Button trigger modal -->
+                  <div>
+                    <button type="button" class="btn dangerbtn mx-3" data-bs-toggle="modal" data-bs-target="#removeFactor">
+                      Remove Factor
+                    </button>
+                    <button type="button" class="btn mainbtn" data-bs-toggle="modal" data-bs-target="#addFactor">
+                      Add Factor
+                    </button>
+                  </div>
+
+                  <!-- Modal add factor  -->
+                  <div class="modal fade" id="addFactor" tabindex="-1" aria-labelledby="addFactor" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="addFactor">Add Factor</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="form-group mb-2">
+                                <label for="addFactors">Factor ID</label>
+                                <input type="text" class="form-control" id="addFactors" placeholder="Enter Factor ID">
+                              </div>
+                              <div id="addnoti" class="form-text text-success px-2 invisible">Factor Added Successfuly</div>
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" id="closeAddFactorId" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" id="addFactorId" class="btn mainbtn">ِAdd Factor</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Modal remove factor  -->
+                  <div class="modal fade" id="removeFactor" tabindex="-1" aria-labelledby="removeFactor" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="removeFactor">Remove Factor</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="form-group mb-2">
+                                <label for="removeFactors">Factor ID</label>
+                                <input type="text" class="form-control" id="removeFactors" placeholder="Enter Factor ID">
+                            </div>
+                            <div id="removenoti" class="form-text text-success px-2 invisible">Factor Removed Successfuly</div>
+                        </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" id="closeRemoveFactorId" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" id="removeFactorId" class="btn dangerbtn">Remove Factor</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end of models  -->
+              </div>
+              <div class="card-body border rounded">
+                <div class="table-responsive" id="proTeamScroll" tabindex="2" style="height: 400px; outline: none">
+                  <table class="table table-hover">
+                    <thead class="mb-1">
+                      <tr>
+                        <th>Card ID</th>
+                        <!-- <th></th> -->
+                        <th>Name</th>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Date</th>
+                        <th>Door Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="attendance-table">
+
+
+
+                      <!-- <tr>
+                        <td>20-02-2018</td>
+                        <td class="d-flex gap-2">
+                          <div class="user-photo">A</div>
+                          <div>
+                            <h6 class="mb-0 font-13">Wordpress Website</h6>
+                            <p class="m-0 font-12">
+                              Assigned to<span class="col-green font-weight-bold">
+                                Airi Satou</span>
+                            </p>
+                          </div>
+                        </td>
+                        <td>20-02-2018</td>
+                        <td>20-02-2018</td>
+                        <td>20-02-2018</td>
+                        <td>
+                          <div class="badget badge-outline col-red">High</div>
+                        </td>
+
+                      </tr> -->
+                      
+                      <!-- <tr>
+                        <td class="table-img">
+                          <img src="http://frontendfreecode.com/codes/files/avatar1.png" alt="" />
+                        </td>
+                        <td>
+                          <h6 class="mb-0 font-13">Android Game App</h6>
+                          <p class="m-0 font-12">
+                            Assigned to<span class="col-green font-weight-bold">
+                              Sarah Smith</span>
+                          </p>
+                        </td>
+                        <td>22-05-2019</td>
+                        <td class="text-truncate">
+                          <ul class="list-unstyled order-list m-b-0">
+                            <li class="team-member team-member-sm">
+                              <img class="rounded-circle" src="http://frontendfreecode.com/codes/files/avatar1.png"
+                                alt="user" data-toggle="tooltip" title="" data-original-title="Wildan Ahdian" />
+                            </li>
+                            <li class="team-member team-member-sm">
+                              <img class="rounded-circle" src="http://frontendfreecode.com/codes/files/avatar3.png"
+                                alt="user" data-toggle="tooltip" title="" data-original-title="John Deo" />
+                            </li>
+                            <li class="team-member team-member-sm">
+                              <img class="rounded-circle" src="http://frontendfreecode.com/codes/files/avatar4.png"
+                                alt="user" data-toggle="tooltip" title="" data-original-title="Sarah Smith" />
+                            </li>
+                            <li class="avatar avatar-sm">
+                              <span class="badge badge-primary">+4</span>
+                            </li>
+                          </ul>
+                        </td>
+                        <td>
+                          <div class="badge-outline col-green">Low</div>
+                        </td>
+                        <td class="align-middle">
+                          <div class="progress-text">55%</div>
+                          <div class="progress" data-height="6" style="height: 6px">
+                            <div class="progress-bar bg-purple" data-width="55%" style="width: 55%"></div>
+                          </div>
+                        </td>
+                        <td>
+                          <a data-toggle="tooltip" title="" data-original-title="Edit"><i
+                              class="fas fa-pencil-alt"></i></a>
+                          <a data-toggle="tooltip" title="" data-original-title="Delete"><i
+                              class="far fa-trash-alt"></i></a>
+                        </td>
+                      </tr>
+                      -->
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </form>
+    {% endif %}
+</div>
+{% endblock %}

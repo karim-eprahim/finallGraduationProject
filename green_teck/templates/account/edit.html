@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+  </div>
+  <div class="modal-body">
+    <header style="font-size: 25px; font-weight: bold; text-align: center;">Edit Profile</header>
+    {% if form4.errors %}
+    <div class="error-messages">
+        {% for field, errors in form4.errors.items %}
+            {% for error in errors %}
+                <div class="error">
+                  <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                  </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+  {% endif %} 
+  <br>
+    <form class="border p-4 rounded" method="POST" style="max-width: 660px;margin: auto" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="input-field" style="margin-bottom: 20px;">
+          <label for="{{ form4.username.id_for_label }}" style="font-size: 18px; font-weight: bold;">
+              {{ form4.username.label }}
+          </label>
+          <input type="text" name="{{ form4.username.name }}" id="{{ form4.username.id_for_label }}" class="form-control" style="width: 100%; height: 40px; font-size: 16px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px;" value="{{ form4.username.value }}" required>
+      </div>
+  
+      <div class="input-field" style="margin-bottom: 20px;">
+          <label for="{{ form4.email.id_for_label }}" style="font-size: 18px; font-weight: bold;">
+              {{ form4.email.label }}
+          </label>
+          <input type="email" name="{{ form4.email.name }}" id="{{ form4.email.id_for_label }}" class="form-control" style="width: 100%; height: 40px; font-size: 16px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px;" value="{{ form4.email.value }}" required>
+      </div> 
+      <br>
+      <button
+      type="submit"
+      class="btn btn-success m-3 mt-0 px-4 border-0"
+    >
+    Save changes
+    </button>
+      <a href="{% url 'profile' %}">
+      <button
+      type="button"
+      class="btn btn-secondary m-3 mt-0 px-4 border-0"
+    >
+     Cancel
+    </button>
+  </a>
+  <a href="{% url 'password' %}">
+    <button
+    type="button"
+    class="btn btn-secondary m-3 mt-0 px-4 border-0"
+  >
+    Change password
+  </button>
+</a>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

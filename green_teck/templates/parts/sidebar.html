@@ -1,0 +1,93 @@
+{% load static %}
+    <!-- sidebar  -->
+    <div class="sidebar">
+      <div class="logo">
+        <img src="{% static '/images/logo.png' %}" alt="" width="65px"> 
+        <h2 class="m-0 fs-3 fw-bold d-none d-xl-block">Green<span class="teck">Teck</span></h2>
+      </div>
+        <ul class="menu">
+          <li 
+          {% if '/' == request.path %}
+          class="rounded-pill active"
+          {% else %}
+          class="rounded-pill"
+          {% endif %}
+          >
+            <a href="{% url "index" %}">
+              <i class="fa-solid fa-gauge-high"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="rounded-pill d-none">
+            <a href="#">
+              <i class="fa-solid fa-chart-pie"></i> <span>Analytics</span>
+            </a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li {% if 'profile' in request.path %}
+          class="rounded-pill active"
+          {% else %}
+          class="rounded-pill"
+          {% endif %}
+          >
+            <a href="{% url "profile" %}">
+              <i class="fa-solid fa-user"></i> <span>Profile</span>
+            </a>
+          </li>
+          <li {% if 'plants' in request.path %}
+          class="rounded-pill active"
+          {% else %}
+          class="rounded-pill"
+          {% endif %}
+          >
+
+            <a href="{% url "plants" %}">
+              <i class="fa-solid fa-seedling"></i> <span>Plants</span>
+            </a>
+          </li>
+          <li {% if 'control' in request.path %}
+          class="rounded-pill active"
+          {% else %}
+          class="rounded-pill"
+          {% endif %}
+          >
+          
+            <a href="{% url "control" %}">
+              <i class="fa-solid fa-gear"></i> <span>Control</span>
+            </a>
+          </li>
+          <li {% if 'logout' in request.path %}
+          class="rounded-pill active"
+          {% else %}
+          class="rounded-pill text-danger"
+           style="position: absolute;top: 90%; width: 100%;"
+          {% endif %}
+          >
+            <a class="text-danger" href="{% url "logout" %}">
+              <i class="fa-solid fa-file"></i> <span>Logout</span>
+            </a>
+          </li>
+          {% else %}
+          <li {% if 'signin' in request.path %}
+          class="rounded-pill active"
+          {% else %}
+          class="rounded-pill"
+          {% endif %}
+          >
+            <a href="{% url "signin" %}">
+              <i class="fa-solid fa-file"></i> <span>SignIn</span>
+            </a>
+          </li>
+          <li {% if 'signin' in request.path %}
+          class="rounded-pill active"
+          {% else %}
+          class="rounded-pill"
+          {% endif %}
+          >
+            <a href="{% url "signup" %}">
+              <i class="fa-solid fa-file"></i> <span>SignUp</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>

@@ -1,0 +1,260 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'parts/sidebar.html' %}
+
+    <!-- main-content -->
+    <div class="control main-content container-fluid px-4">
+        <div class="wellcome d-flex py-4 justify-content-between border-bottom">
+            <div class="d-flex justify-content-center align-items-center gap-2">
+                <div class="profilexx" ref="profile">
+                  <span>{{ user.username|first|upper }}</span>
+                </div>  
+    
+                <h1 class="fs-4 m-0">
+                    <span class="">{{request.user.username|capfirst}}</span>
+                </h1>
+            </div>
+            <div class="d-flex justify-content-center gap-2 h-100">
+                <div class="notificationss">
+                  <i class="notificationbtn fa-solid fa-bell btn btn-light border"><span class="badge position-absolute dangerbtn rounded-pill"></span></i>
+                  <!-- alert  -->
+                    <div class="notification pt-3 bg-white border rounded-4 d-none">
+                      <div class="notititle text-center">
+                        <h4><i class="fa-solid fa-bell me-2"></i>Notifications</h4>
+                      </div>
+                      <div class="notibody">
+                        <div class="list-group border-0">
+                          <div class="alert alert-light" role="alert">
+                            There Is No Notifications
+                          </div>
+                        </div>
+                        <button class="btn btn-warning w-100 mt-2 deleteAllNotifications">Delete All Notifications</button>
+                      </div>
+                    </div>
+                </div>
+                <i
+                  class="sidebtn d-sm-none d-flex flex-column justify-content-center align-items-center btn gap-1 btn-light border"
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </i>
+              </div>
+        </div>
+       
+        {% if user.is_authenticated and user.is_staff %}
+            <div class="w-100 mt-4 d-flex justify-content-end">
+                <button type="button" class="btn btn-success px-4 py-2" data-bs-toggle="modal" data-bs-target="#addPlantModal">
+                    Add Plant
+                </button>
+            </div>
+            <div class="modal fade" id="addPlantModal" tabindex="-1" aria-labelledby="addPlantModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="addPlantModalLabel">Add Plant</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class=".mb-0">
+                                    <label for="{{ form2.title.id_for_label }}" >Title :</label>
+                                    {{ form2.title }}
+                                </div>
+                                <div class=".mb-0">
+                                    <label for="{{ form2.Temperature.id_for_label }}" >Temperature (°C)</label>
+                                    {{ form2.Temperature }}
+                                </div>                            
+                                <div class=".mb-0">
+                                    <label for="{{ form2.Light_intensity.id_for_label }}" >Light Intensity (Lux)</label>
+                                    {{ form2.Light_intensity }}
+                                </div>                           
+                                <div class=".mb-0">
+                                    <label for="{{ form2.Soil_moister.id_for_label }}" >Soil Moisture (%)</label>
+                                    {{ form2.Soil_moister }}
+                                </div>                           
+                                <div class=".mb-0">
+                                    <label for="{{ form2.Humidity.id_for_label }}" >Humidity :</label>
+                                    {{ form2.Humidity }}
+                                </div>                           
+                                <div class=".mb-0">
+                                    <label for="{{ form2.air_Quality.id_for_label }}" >Air Quality :</label>
+                                    {{ form2.air_Quality }}
+                                </div>                           
+                                <div class=".mb-0">
+                                    <label for="{{ form2.photo.id_for_label }}" >Photo :</label>
+                                    {{ form2.photo }}
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-success m-3 mt-0 px-4 border-0">ADD</button>
+                                <button type="button" class="btn btn-secondary m-3 mt-0 px-4 border-0" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="container food_section">
+            <div class="row mt-3 g-3 g-md-4">
+                {% for plant in plants %}
+                    <div class="col-sm-6 col-lg-4 col-xxl-3">
+                        <div class="box shadow" style="background-color: gray">
+                            <div>
+                                <div class="img-box">
+                                    <img style="max-width: 100%" src="{{ plant.photo.url }}" alt="{{ plant.title }}" />
+                                </div>
+                                <div class="detail-box">
+                                    <br>
+                                    <h5>{{ plant.title }}</h5>
+                                    <div class="row">
+                                        <label for="temperature{{ plant.id }}" class="col-8 col-form-label">Temperature (°C) :</label>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control-plaintext" id="temperature{{ plant.id }}" value="{{ plant.Temperature }}" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label for="lightIntensity{{ plant.id }}" class="col-8 col-form-label">Light Intensity (Lux) :</label>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control-plaintext" id="lightIntensity{{ plant.id }}" value="{{ plant.Light_intensity }}" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label for="soilMoisture{{ plant.id }}" class="col-8 col-form-label">Soil Moisture (%) :</label>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control-plaintext" id="soilMoisture{{ plant.id }}" value="{{ plant.Soil_moister }}" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label for="humidity{{ plant.id }}" class="col-8 col-form-label">Humidity :</label>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control-plaintext" id="humidity{{ plant.id }}" value="{{ plant.Humidity }}" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label for="airQuality{{ plant.id }}" class="col-8 col-form-label">Air Quality :</label>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control-plaintext" id="airQuality{{ plant.id }}" value="{{ plant.air_Quality }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if user.is_authenticated %}
+                                {% if user.is_staff %}
+                                    <div class="d-flex justify-content-between">
+                                        <br>
+                                        <div class="w-150 mt-6 d-flex justify-content-end">                                        
+                                            <button type="button" class="btn btn-success m-3 mt-0 border-0" data-bs-toggle="modal" data-bs-target="#updatePlantModal{{ plant.id }}">
+                                                Update
+                                            </button>
+                                            <div class="modal fade" id="updatePlantModal{{ plant.id }}" tabindex="-1" aria-labelledby="updatePlantModalLabel{{ plant.id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="updatePlantModalLabel{{ plant.id }}">Update {{ plant.title }} data</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="POST" action="{% url 'update' plant.id %}" enctype="multipart/form-data">
+                                                                {% csrf_token %}
+                                                                <label for="id_title">Title:</label>
+                                                                <input type="text" id="id_title" name="title" value="{{ plant.title }}" class="form-control">
+                                                                
+                                                                <label for="id_Temperature">Temperature (°C) :</label>
+                                                                <input type="number" id="id_Temperature" name="Temperature" value="{{ plant.Temperature }}" class="form-control">
+                                                                
+                                                                <label for="id_Light_intensity">Light Intensity (Lux) :</label>
+                                                                <input type="number" id="id_Light_intensity" name="Light_intensity" value="{{ plant.Light_intensity }}" class="form-control">
+                                                                
+                                                                <label for="id_Soil_moister">Soil Moisture (%) :</label>
+                                                                <input type="number" id="id_Soil_moister" name="Soil_moister" value="{{ plant.Soil_moister }}" class="form-control">
+                                                                
+                                                                <label for="id_Humidity">Humidity :</label>
+                                                                <input type="number" id="id_Humidity" name="Humidity" value="{{ plant.Humidity }}" class="form-control">
+                                                                
+                                                                <label for="id_air_Quality">Air Quality :</label>
+                                                                <input type="number" id="id_air_Quality" name="air_Quality" value="{{ plant.air_Quality }}" class="form-control">
+                                                                
+                                                                <label for="id_photo">Photo :</label>
+                                                                <input type="file" id="id_photo" name="photo" class="form-control">
+                                                                
+                                                                <br>                               
+                                                                <button type="submit" class="btn btn-success m-3 mt-0 px-4 border-0">Save changes</button>
+                                                                <button type="button" class="btn btn-secondary m-3 mt-0 px-4 border-0" data-bs-dismiss="modal">Cancel</button>
+                                                            </form>                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                          
+                                        {% if plant.is_active %}
+                                            <form method="POST" action="{% url 'inactive' %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-info text-white m-3 mt-0 border-0">De-activate</button>
+                                            </form>
+                                        {% else %}
+                                            <form method="POST" action="{% url 'active' plant.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-info text-white m-3 mt-0 border-0">Activate</button>
+                                            </form>
+                                        {% endif %}
+                                        <div class="w-150 mt-6 d-flex justify-content-end">
+                                            <form method="POST" action="{% url 'delete' plant.id %}">
+                                                {% csrf_token %}
+                                                <button type="button" class="btn btn-danger m-3 mt-0 border-0" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal{{ plant.id }}">
+                                                    Delete
+                                                </button>
+                                                <div class="modal fade" id="deleteConfirmModal{{ plant.id }}" tabindex="-1" aria-labelledby="deleteConfirmModalLabel{{ plant.id }}" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure you want to delete {{ plant.title }} ?</p>
+                                                                <form method="POST" action="{% url 'delete' plant.id %}">
+                                                                    {% csrf_token %}
+                                                                    <br>
+                                                                    <button type="submit" class="btn btn-danger m-3 mt-0 border-0">Delete</button>
+                                                                    <button type="button" class="btn btn-secondary m-3 mt-0 px-4 border-0" data-bs-dismiss="modal">Cancel</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {% if plant.is_active %}
+                                                <div class="options">
+                                                    <i class="fa-regular fa-circle-check" ></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    {% if plant.is_active %}
+                                    <form method="POST" action="{% url 'inactive' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-info text-white m-3 mt-0 border-0">De-activate</button>
+                                    </form>
+                                {% else %}
+                                    <form method="POST" action="{% url 'active' plant.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-info text-white m-3 mt-0 border-0">Activate</button>
+                                    </form>
+                                    
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

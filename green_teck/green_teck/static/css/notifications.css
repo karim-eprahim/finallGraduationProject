@@ -1,0 +1,36 @@
+.notificationss{
+    position: relative;
+}
+.notification{
+    z-index: 3;
+}
+.notificationss .notification{
+    position: absolute;
+    top: 2rem;
+    right: 0rem;
+    z-index: 3;
+    min-width: 400px;
+}
+.notification-ui_dd:after {
+    content: "";
+    position: absolute;
+    top: -30px;
+    left: calc(50% - 7px);
+    border-top: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid #fff;
+    border-left: 15px solid transparent;
+}
+.notibody .list-group{
+    max-height: 300px;
+    overflow-y: scroll;
+}
+@media (max-width: 576px) {
+    .notificationss .notification{
+        position: absolute;
+        top: 2rem;
+        right: -4rem;
+        z-index: 3;
+        min-width: 350px;
+    }
+  }

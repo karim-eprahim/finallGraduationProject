@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'parts/sidebar.html' %} 
+<div class="container-fluid p-0">
+    <div class="d-flex">
+      <div>
+
+      </div>
+      <div class="w-100">
+        <div class="profile w-100">
+          <div class="w-100">
+            <div class="p-0">
+              <!-- Profile widget -->
+              <div class="bg-main">
+                <div class="px-4 shadow pt-0 pb-5 cover">
+                  <div class="media align-items-end profile-head">
+                    <div class="profile-info mr-3">
+                      {% if user.is_authenticated %}
+                        {% if user.is_staff %}
+                          {% comment %} Show 'A' for admin {% endcomment %}
+                          <div class="profilexx" ref="profile">
+                            <span>{{ user.username|first|upper }}</span>
+                          </div>  
+                        {% else %}
+                          {% comment %} Show user's first letter of the username {% endcomment %}
+                          <div class="profilexx" ref="profile">
+                            <span>{{ user.username|first|upper }}</span>
+                          </div>  
+                        {% endif %}
+                      {% endif %}
+                      <div class="media-body text-white">
+                        {% if user.is_authenticated %}
+                          {% if user.is_staff %}
+                            <p class="small mb-3">
+                              <h4 class="fs-5 mt-0 mb-0">{{ user.username }}</h4>
+                              <h4 class="fs-6 mt-0 mb-0">Manaer</h4>
+                            </p>
+                          {% else %}
+                            <p class="small mb-4">
+                              <h4 class="fs-5 mt-0 mb-0">{{ user.username }}</h4>
+                              <h4 class="fs-6 mt-0 mb-0">Factor</h4>
+                            </p>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                      {% if user.is_authenticated %}
+                    </div>
+                    <a href="{% url 'edit' %}" class="btn btn-success btn-sm btn-block editbtn mb-5" style ="font-weight: 500;font-size:17px">Edit Profile</a>
+                  </div>
+                       {% endif %}
+                  <i class="sidebtn d-sm-none d-flex flex-column justify-content-center align-items-center btn gap-1 btn-light border">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </i>
+                </div>
+                {% if user.is_authenticated %}
+                  {% if user.is_staff %}                         
+                    <div class="bg-white shadow rounded m-3 p-4">
+                      <ul class="list-inline mb-0 d-flex justify-content-around justify-content-sm-start gap-sm-3 text-center">
+                        <li class="list-inline-item">
+                          <h5 class="font-weight-bold mb-0 d-block">{{ plant_count }}</h5>
+                          <small class="text-muted"><i class="fa-brands fa-pagelines me-1"></i>Plants</small>
+                        </li>
+                        <li class="list-inline-item">
+                          <h5 class="font-weight-bold mb-0 d-block">{{ user_count }}</h5>
+                          <small class="text-muted"><i class="fas fa-user me-1"></i>Users</small>
+                        </li>
+                      </ul>
+                    </div>
+                  {% else %}                          
+                                            
+                  {% endif %}
+                {% endif %}
+              </div>
+              <div class="px-4 bg-white shadow m-3 rounded py-3">
+                <h5 class="mb-0">Profile Info</h5>
+                <div class="p-4 rounded">
+                  <p>
+                    {% if user.is_authenticated %}
+                      {% if user.is_staff %}                         
+                        <span class="fw-bold me-2">UserName:</span>{{ user.username }}
+                      {% else %}                          
+                        <span class="fw-bold me-2">UserName:</span>{{ user.username }}                              
+                      {% endif %}
+                    {% endif %}
+                  </p>
+                  <p>
+                    <span class="fw-bold me-2">Email:</span>{{ user.email }}
+                  </p>
+                  <p>
+                  </p>
+                  <p>
+                    {% if user.is_authenticated %}
+                      {% if user.is_staff %}  
+                        <br>           
+                      {% else %}                          
+                        <span class="fw-bold me-2">To contact the admin :</span>01097233502                              
+                      {% endif %}
+                    {% endif %}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

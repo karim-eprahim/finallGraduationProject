@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper signin">
+    <div class="container messages-container">
+        {% if messages %}
+        <ul class="messages loginAlert" style="height: 0px;">
+            {% for message in messages %}
+            <li>
+                {% if 'error' in message.tags %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                  </div>
+                {% elif 'success' in message.tags %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                  </div>                {% elif 'warning' in message.tags %}
+                <div class="alert alert-warning" role="alert">
+                    {{ message }}
+                  </div>                {% else %}
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                  </div>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div class="container main p-0">
+        <div class="row rows">
+            <div class="col-md-6 side-image">
+                <div class="text">
+                    <p style="color: rgb(0, 0, 0);">Welcome to the oasis &nbsp;&nbsp;&nbsp;&nbsp;of innovation and &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;growth!<i style="color: rgb(0, 0, 0);font-weight: bold ;font-size: medium ;">GreenTech</i></p>
+                </div>
+            </div>
+            <div class="col-md-6 right">
+                <form method="POST">
+                    {% csrf_token %}
+                    <header style="font-size: 25px; font-weight: bold; text-align: center;">Sign In</header>
+
+                    <div class="input-field" style="margin-bottom: 20px;">
+                        <label for="{{ form.username.id_for_label }}" style="font-size: 18px; font-weight: bold;">
+                            {{ form.username.label }}
+                            {% if form.errors.username %}
+                                <ul class="errorlist">
+                                    {% for error in form.errors.username %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </label>
+                        <input class="rounded" type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}"  style="width: 100%; height: 40px; font-size: 16px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px;outline: none;" value="{{ form.username.value }}" required>
+                    </div>
+
+                    <div class="input-field" style="margin-bottom: 20px;">
+                        <label for="{{ form.password.id_for_label }}" style="font-size: 18px; font-weight: bold;">
+                            {{ form.password.label }}
+                            {% if form.errors.password %}
+                                <ul class="errorlist">
+                                    {% for error in form.errors.password %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </label>
+                        <input class="rounded" type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}" style="width: 100%; height: 40px; font-size: 16px; background-color: #f0f0f0; border: 1px solid #ccc; padding: 10px;outline: none;" required>
+                    </div>
+
+                    <div class="input-field" style="margin-bottom: 20px;">
+                        <button type="submit" class="submit" name="btnsignin" value="Sign In" style="width: 100%; height: 40px; font-size: 16px; background-color: #a2f7be; color: rgb(0, 0, 0); border: none;">Login</button>
+                    </div>
+
+                    <div class="signin" style="font-size: 18px; text-align: center;">
+                        <span>Don't have an account? <a href="{% url 'signup' %}">Sign Up here</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

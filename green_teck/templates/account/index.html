@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% include 'parts/sidebar.html' %}  
+
+<!-- main-content  -->
+<div class="main-content container-fluid px-4">
+    <div class="wellcome d-flex py-4 justify-content-between">
+      <div>
+        <h1 class="fs-3">
+          {% if request.user.is_authenticated %}
+          Wellcome, {{request.user.username}}!
+          {% else %}
+          Join us
+          {% endif %}
+        </h1>
+        <p>
+          <i class="fa-regular fa-calendar-minus"></i
+          ><span class="datex"></span>
+        </p>
+      </div>
+      <div class="d-flex justify-content-center gap-2 h-100">
+        <div class="notificationss">
+          <i class="notificationbtn fa-solid fa-bell btn btn-light border"><span class="badge position-absolute dangerbtn rounded-pill"></span></i>
+          <!-- alert  -->
+            <div class="notification pt-3 bg-white border rounded-4 d-none">
+              <div class="notititle text-center">
+                <h4><i class="fa-solid fa-bell me-2"></i>Notifications</h4>
+              </div>
+              <div class="notibody">
+                <div class="list-group border-0">
+                  <div class="alert alert-light" role="alert">
+                    There Is No Notifications
+                  </div>
+                </div>
+                <button class="btn btn-warning w-100 mt-2 deleteAllNotifications">Delete All Notifications</button>
+              </div>
+            </div>
+        </div>
+        <i
+          class="sidebtn d-sm-none d-flex flex-column justify-content-center align-items-center btn gap-1 btn-light border"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </i>
+      </div>
+
+    </div>
+    
+    <div class="container-fluid py-4 bg-white rounded-5">
+      <div class="row">
+        <div class="d-flex gap-3 align-items-center">
+          {% if plant %}
+          <img src="{{ plant.photo.url }}" class="plImg mw-100 rounded-circle" />
+          <div>
+            <h3>{{ plant.title }}</h3>
+          {% else %}
+            <div>
+              <h3>There is no active plant </h3>
+              <p>These are the last sensors measurements:</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div
+        class="row sensors mx-lg-3 mx-xl-5 row-cols-1 row-cols-md-2 row-cols-lg-4"
+      >
+        <!-- sensors reading  -->
+        <div class="col sensreading">
+          <div class="cont">
+            <div class="outer">
+              <div class="inner">
+                <div id="number">0%</div>
+              </div>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              width="140px"
+              height="140px"
+            >
+              <defs>
+                <linearGradient id="GradientColor">
+                  <stop offset="0%" stop-color="#e94545" />
+                  <stop offset="100%" stop-color="#ebf2c2" />
+                </linearGradient>
+              </defs>
+              <circle cx="70" cy="70" r="60" stroke-linecap="round" />
+            </svg>
+            <div class="sensInfo mx-auto mt-3">
+              <p class="text-center">
+                <i
+                  class="fa-solid fa-temperature-low"
+                  style="color: #e94545"
+                ></i>
+                <span>Temperature</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col sensreading">
+          <div class="cont">
+            <div class="outer">
+              <div class="inner">
+                <div id="number">0%</div>
+              </div>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              width="140px"
+              height="140px"
+            >
+              <defs>
+                <linearGradient id="lightIntensity">
+                  <stop offset="0%" stop-color="#333533" />
+                  <stop offset="100%" stop-color="#cfdbd5" />
+                </linearGradient>
+              </defs>
+              <circle
+                class="lightIntensity"
+                cx="70"
+                cy="70"
+                r="60"
+                stroke-linecap="round"
+              />
+            </svg>
+            <div class="sensInfo mx-auto mt-3">
+              <p class="text-center">
+                <i class="fa-solid fa-sun" style="color: #333533"></i>
+                <span>Light Intensity</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col sensreading">
+          <div class="cont">
+            <div class="outer">
+              <div class="inner">
+                <div id="number">0%</div>
+              </div>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              width="140px"
+              height="140px"
+            >
+              <defs>
+                <linearGradient id="humidity">
+                  <stop offset="0%" stop-color="#EEC759" />
+                  <stop offset="100%" stop-color="#caf0f8" />
+                </linearGradient>
+              </defs>
+              <circle
+                class="humidity"
+                cx="70"
+                cy="70"
+                r="60"
+                stroke-linecap="round"
+              />
+            </svg>
+            <div class="sensInfo mx-auto mt-3">
+              <p class="text-center">
+                <i class="fa-solid fa-droplet" style="color: #023e8a"></i>
+                <span>Humidity</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col sensreading">
+          <div class="cont">
+            <div class="outer">
+              <div class="inner">
+                <div id="number">0%</div>
+              </div>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              width="140px"
+              height="140px"
+            >
+              <defs>
+                <linearGradient id="airQuality">
+                  <stop offset="0%" stop-color="#ffafcc" />
+                  <stop offset="100%" stop-color="#a2d2ff" />
+                </linearGradient>
+              </defs>
+              <circle
+                class="airQuality"
+                cx="70"
+                cy="70"
+                r="60"
+                stroke-linecap="round"
+              />
+            </svg>
+            <div class="sensInfo mx-auto mt-3">
+              <p class="text-center">
+                <i class="fa-solid fa-wind" style="color: #a2d2ff"></i>
+                <span>Air Quality</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid py-4">
+      <div class="row gap-sm-0 gap-3">
+        <div class="col-12 col-md-6 pr-0 pr-sm-3">
+          <div class="carde">
+            <h2>Plant Details</h2>
+            <p>Water Level & Humidity</p>
+            <div class="pulse"></div>
+            <div class="chart-area">
+              <div class="grid"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 pl-0 pl-sm-3">
+          <div class="carde">
+            <h2>Plant Details</h2>
+            <p>Aire Quality & Light Intensity</p>
+            <div class="pulse"></div>
+            <div class="graphtwo">
+              <div class="grid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
