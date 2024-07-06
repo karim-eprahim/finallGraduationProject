@@ -1,8 +1,10 @@
 from django.shortcuts import render ,redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import PlantForm
 from django.urls import reverse
 
+@login_required(login_url='/account/signin.html')
 def index(request):
     active_plant = Plants.objects.filter(is_active=True).first()
     return render(request,'account/index.html',{'plant': active_plant})
