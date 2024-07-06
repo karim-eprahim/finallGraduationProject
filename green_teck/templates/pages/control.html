@@ -208,7 +208,8 @@
             <div class="card border-0 shadow h-100">
               <div class="card-body">
                 <h5 class="card-title">
-                  <i class="fa-solid fa-wind icon text-info"></i>
+                  <!-- <i class="fa-solid fa-wind icon text-info"></i> -->
+                <i class="fa-solid fa-glass-water-droplet icon text-warning"></i>
                   Humidity
                 </h5>
                 <div class="card-text my-3 d-flex justify-content-center align-items-center">
@@ -626,7 +627,8 @@
           <div class="card border-0 shadow h-100">
             <div class="card-body">
               <h5 class="card-title">
-                <i class="fa-solid fa-wind icon text-info"></i>
+                <!-- <i class="fa-solid fa-wind icon text-info"></i> -->
+                <i class="fa-solid fa-glass-water-droplet  text-info"></i>
                 Humidity
               </h5>
               <div class="card-text my-3 d-flex justify-content-center align-items-center">
@@ -733,6 +735,8 @@
                 <h3>Employee Attendance</h3>
                 <!-- add factor  -->
                  <!-- Button trigger modal -->
+                 {% if user.is_authenticated %}
+                 {% if user.is_staff %}
                   <div>
                     <button type="button" class="btn dangerbtn mx-3" data-bs-toggle="modal" data-bs-target="#removeFactor">
                       Remove Factor
@@ -741,6 +745,9 @@
                       Add Factor
                     </button>
                   </div>
+                 
+                  {% endif%}
+                  {%endif%}
 
                   <!-- Modal add factor  -->
                   <div class="modal fade" id="addFactor" tabindex="-1" aria-labelledby="addFactor" aria-hidden="true">

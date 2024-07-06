@@ -327,6 +327,9 @@ circle {
 .airQuality {
   stroke: url(#airQuality);
 }
+.soil-moisture {
+  stroke: url(#soil-moisture);
+}
 svg {
   position: absolute;
   top: 0;

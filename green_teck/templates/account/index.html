@@ -64,14 +64,14 @@
         </div>
       </div>
       <div
-        class="row sensors mx-lg-3 mx-xl-5 row-cols-1 row-cols-md-2 row-cols-lg-4"
+        class="row sensors mx-lg-3 mx-xl-5 row-cols-1 row-cols-md-2 row-cols-lg-5"
       >
         <!-- sensors reading  -->
         <div class="col sensreading">
           <div class="cont">
             <div class="outer">
               <div class="inner">
-                <div id="number">0%</div>
+                <div id="number">0 </div><span class="mx-1"> &deg;C</span>
               </div>
             </div>
             <svg
@@ -103,7 +103,7 @@
           <div class="cont">
             <div class="outer">
               <div class="inner">
-                <div id="number">0%</div>
+                <div id="number">0</div><span class="mx-1">Flux</span>
               </div>
             </div>
             <svg
@@ -138,7 +138,7 @@
           <div class="cont">
             <div class="outer">
               <div class="inner">
-                <div id="number">0%</div>
+                <div id="number">0</div><span class="mx-1">%</span>
               </div>
             </div>
             <svg
@@ -173,7 +173,7 @@
           <div class="cont">
             <div class="outer">
               <div class="inner">
-                <div id="number">0%</div>
+                <div id="number">0</div><span class="mx-1">PPM</span>
               </div>
             </div>
             <svg
@@ -204,14 +204,50 @@
             </div>
           </div>
         </div>
+        <div class="col sensreading">
+          <div class="cont">
+            <div class="outer">
+              <div class="inner">
+                <div id="number"></div><span class="mx-1">%</span>
+              </div>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              width="140px"
+              height="140px"
+            >
+              <defs>
+                <linearGradient id="soil-moisture">
+                  <stop offset="0%" stop-color="#ffd92d" />
+                  <stop offset="100%" stop-color="#a2d2ff" />
+                </linearGradient>
+              </defs>
+              <circle
+                class="soil-moisture"
+                cx="70"
+                cy="70"
+                r="60"
+                stroke-linecap="round"
+              />
+            </svg>
+            <div class="sensInfo mx-auto mt-3">
+              <p class="text-center">
+                <!-- <i class="fa-solid fa-wind" style="color: #ffd92d"></i> -->
+                <i class="fa-solid fa-glass-water-droplet" style="color: #ffd92d"></i>
+                <span>Soil Moisture</span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="container-fluid py-4">
       <div class="row gap-sm-0 gap-3">
         <div class="col-12 col-md-6 pr-0 pr-sm-3">
           <div class="carde">
-            <h2>Plant Details</h2>
-            <p>Water Level & Humidity</p>
+            <h2>first Report</h2>
+            <p>Temperature & AirQuality</p>
             <div class="pulse"></div>
             <div class="chart-area">
               <div class="grid"></div>
@@ -220,8 +256,8 @@
         </div>
         <div class="col-12 col-md-6 pl-0 pl-sm-3">
           <div class="carde">
-            <h2>Plant Details</h2>
-            <p>Aire Quality & Light Intensity</p>
+            <h2>Second Report</h2>
+            <p>Humidity & soilMoisture</p>
             <div class="pulse"></div>
             <div class="graphtwo">
               <div class="grid"></div>

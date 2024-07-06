@@ -25,6 +25,7 @@ function fetchData(path, callback) {
 
 function setElementContent(selector, content) {
   document.querySelector(selector).innerHTML = content;
+  console.log(content)
 }
 
 function updateControlState(control, elementIds) {
@@ -147,8 +148,16 @@ function getReading() {
     `${sensorData["light-intensity"]} <span class="fs-4">Lux</span>`
   );
   setElementContent(
+    ".irrigation",
+    `${sensorData["soil-moisture"]["soil-moisture-average"]} <span class="fs-4">%</span>`
+  );
+  setElementContent(
     ".humidity",
     `${sensorData["humidity"]} <span class="fs-4">%</span>`
+  );
+  setElementContent(
+    ".airQuality",
+    `${sensorData["airquality"]} <span class="fs-4">PPM</span>`
   );
 }
 

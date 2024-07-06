@@ -8,7 +8,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const appSettings = {
-  databaseURL: "https://test-a17dc-default-rtdb.firebaseio.com/",
+  // databaseURL: "https://test-a17dc-default-rtdb.firebaseio.com/",
+  databaseURL: "https://newmotor-esp-default-rtdb.firebaseio.com/",
 };
 const app = initializeApp(appSettings);
 const database = getDatabase(app);
@@ -147,11 +148,18 @@ function getReading() {
     `${sensorData["light-intensity"]} <span class="fs-4">Lux</span>`
   );
   setElementContent(
+    ".irrigation",
+    `${sensorData["soil-moisture"]} <span class="fs-4">%</span>`
+  );
+  setElementContent(
     ".humidity",
     `${sensorData["humidity"]} <span class="fs-4">%</span>`
   );
+  setElementContent(
+    ".airQuality",
+    `${sensorData["airquality"]} <span class="fs-4">PPM</span>`
+  );
 }
-
 // Fetch and update control states
 function setDataControl() {
   const controls = [
@@ -281,8 +289,9 @@ function initializeDataFetching() {
     controlData = data;
     setDataControl();
   });
-  // datatable()
 }
+
+datatable()
 
 // Initialize
 initializeDataFetching();
@@ -292,7 +301,7 @@ setInterval(initializeDataFetching, 3000);
 function datatable() {
   document.addEventListener("DOMContentLoaded", () => {
     fetch(
-      "https://v1.nocodeapi.com/mosalah185/google_sheets/vimNoYBodazusiUd?tabId=SmartGreenHouse"
+      "https://v1.nocodeapi.com/shjytr4/google_sheets/BbMDxgWEEjQgfeNz?tabId=SmartGreenHouse"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -302,7 +311,7 @@ function datatable() {
           const tr = document.createElement("tr");
 
           tr.innerHTML = `
-                    <td>${row.row_id}</td>
+                    <td>${row.Student_Id}</td>
                     <td class="d-flex gap-2">
                     <div class="user-photo">${
                       row.Frist_Name ? row.Frist_Name.charAt(0) : "0"
@@ -318,12 +327,12 @@ function datatable() {
                     <td>${row.Time_Out || ""}</td>
                     <td>${row.Date}</td>
                     <td>
-                       <div class="badget badge-outline col-red">Closed</div>
+                       <div class="badget badge-outline col-red">${row.Time_Out? "Closed":"Open"}</div>
                      </td>              `;
 
           tableBody.appendChild(tr);
         });
-        console.log(data.data);
+        // console.log(data.data);
       })
       .catch((error) => console.error("Error fetching data:", error));
   });
